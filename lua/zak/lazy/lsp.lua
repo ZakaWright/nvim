@@ -33,8 +33,9 @@ return {
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
+                "ts_ls",
                 --"emmet-language-server",
-                --"jedi-language-server",
+                --"jedi_ls",
                 --"tailwindcss-language-server",
                 --"typescript-language-server",
             },
@@ -58,7 +59,11 @@ return {
                         }
                     }
                 end,
-                lspconfig.tsserver.setup {},
+                ['ts_ls'] = function()
+                    lspconfig.ts_ls.setup({
+
+                    })
+                end,
                 lspconfig.emmet_language_server.setup ({
                     --{filetypes = {"css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "pug", "typescriptreact", "javascript.jsx", "typescript.tsx"}},
                     {filetypes = {"css", "html", "javascript", }},
