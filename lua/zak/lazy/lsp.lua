@@ -29,12 +29,18 @@ return {
             lsp_zero.default_keymaps=({buffer = bufnr})
         end)
         local lspconfig = require("lspconfig")
+        -- make templ files a valid filetype
+        vim.filetype.add({extension = {templ = "templ"}})
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
                 "ts_ls",
-                --"emmet-language-server",
+                "templ",
+                --"emmet-ls",
+                "emmet_language_server",
+                "gopls",
+                "htmx"
                 --"jedi_ls",
                 --"tailwindcss-language-server",
                 --"typescript-language-server",
@@ -64,29 +70,40 @@ return {
 
                     })
                 end,
-                lspconfig.emmet_language_server.setup ({
-                    --{filetypes = {"css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "pug", "typescriptreact", "javascript.jsx", "typescript.tsx"}},
-                    {filetypes = {"css", "html", "javascript", }},
-                    capabilities = capabilities,
-                    init_options = {
-                        includeLanguages = {},
-                        excludeLanguages = {},
-                        --- @type string[]
-                        extensionsPath = {},
-                        --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
-                        preferences = {},
-                        --- @type boolean Defaults to `true`
-                        showAbbreviationSuggestions = true,
-                        --- @type "always" | "never" Defaults to `"always"`
-                        showExpandedAbbreviation = "always",
-                        --- @type boolean Defaults to `false`
-                        showSuggestionsAsSnippets = false,
-                        --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
-                        syntaxProfiles = {},
-                        --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
-                        variables = {},
-                    },
-                }),
+                ["emmet_language_server"] = function()
+                    lspconfig.emmet_language_server.setup ({
+                        --{filetypes = {"css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "pug", "typescriptreact", "javascript.jsx", "typescript.tsx"}},
+                        filetypes = {"css", "html", "javascript", "templ"},
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                        init_options = {
+                            includeLanguages = {templ = "html"},
+                            excludeLanguages = {},
+                            --- @type string[]
+                            extensionsPath = {},
+                            --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+                            preferences = {},
+                            --- @type boolean Defaults to `true`
+                            showAbbreviationSuggestions = true,
+                            --- @type "always" | "never" Defaults to `"always"`
+                            showExpandedAbbreviation = "always",
+                            --- @type boolean Defaults to `false`
+                            showSuggestionsAsSnippets = false,
+                            --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
+                            syntaxProfiles = {},
+                            --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
+                            variables = {},
+                        },
+                    })
+                end,
+
+                ["htmx"] = function()
+                    lspconfig.htmx.setup({
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                        filetypes = {"html", "templ"},
+                    })
+                end,
             }
         })
 

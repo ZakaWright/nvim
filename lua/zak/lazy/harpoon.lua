@@ -5,6 +5,7 @@ return {
 
     config = function ()
         local harpoon = require("harpoon")
+        local wk = require("which-key")
 
         harpoon.setup()
 
@@ -22,5 +23,14 @@ return {
         vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
         vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
 
+        wk.add({
+            {"<leader>a", desc = "Harpoon"},
+            {"<C-e>", desc = "Harpoon quick menu"},
+            {"<C-a>", desc = "Harpoon remove file"},
+            {"<C-h>", desc = "Harpoon file 1"},
+            {"<C-j>", desc = "Harpoon file 2"},
+            {"<C-k>", desc = "Harpoon file 3"},
+            {"<C-l>", desc = "Harpoon file 4"},
+        })
     end
 }
