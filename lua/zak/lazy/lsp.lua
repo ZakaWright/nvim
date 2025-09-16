@@ -37,13 +37,11 @@ return {
                 "lua_ls",
                 "ts_ls",
                 "templ",
-                --"emmet-ls",
                 "emmet_language_server",
                 "gopls",
-                "htmx"
-                --"jedi_ls",
-                --"tailwindcss-language-server",
-                --"typescript-language-server",
+                "htmx",
+                "rust_analyzer",
+                "clangd",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -103,6 +101,36 @@ return {
                         capabilities = capabilities,
                         filetypes = {"html", "templ"},
                     })
+                end,
+                ["rust_analyzer"] = function()
+                    lspconfig.rust_analyzer.setup({
+                        on_attach = function(client, bufnr)
+                            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr})
+                        end
+                    })
+                    --[=====[
+                    lspconfig.rust_analyzer.setup({
+                        on_attach = on_attach,
+                        settings = {
+                            [rust-analyzer] = {
+                                imports = {
+                                    granularity = {
+                                        group = "module",
+                                    },
+                                    prefix = "self",
+                                },
+                                cargo = {
+                                    buildScripts = {
+                                        enable = true,
+                                    },
+                                },
+                                procMacro = {
+                                    enable = true,
+                                },
+                            }
+                        }
+                    })
+                    --]=====]
                 end,
             }
         })
