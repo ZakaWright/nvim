@@ -27,6 +27,8 @@ return {
         local lsp_zero = require('lsp-zero')
         lsp_zero.on_attach(function (client, bufnr)
             lsp_zero.default_keymaps=({buffer = bufnr})
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = 'LSP Go to Definition' })
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = 'LSP Hover Documentation' })
         end)
         local lspconfig = require("lspconfig")
         -- make templ files a valid filetype
@@ -147,7 +149,7 @@ return {
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                ['<C-CR>'] = cmp.mapping.confirm({ select = true }),
                 ["<C-Space>"] = cmp.mapping.complete(),
                 ["<Tab>"] = cmp.mapping(function (fallback)
                     if cmp.visible() then
