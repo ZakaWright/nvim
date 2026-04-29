@@ -44,6 +44,7 @@ return {
                 "htmx",
                 "rust_analyzer",
                 "clangd",
+                "texlab",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -133,6 +134,28 @@ return {
                         }
                     })
                     --]=====]
+                end,
+
+                ["texlab"] = function()
+                    lspconfig.texlab.setup({
+                        capabilities = capabilities,
+                        settings = {
+                            texlab = {
+                                build = {
+                                    executable = "latexmk",
+                                    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                                    onSave = true,
+                                },
+                                forwardSearch = {
+                                    executable = "zathura",
+                                    args = { "--synctex-forward", "%l:1:%f", "%p" },
+                                },
+                                chktex = {
+                                    onOpenAndSave = true,
+                                },
+                            },
+                        },
+                    })
                 end,
             }
         })
