@@ -4,7 +4,7 @@ return {
     config = function()
         require("telescope").load_extension("bibtex")
 
-        local bib_path = vim.fn.expand("~/bibliography.bib")
+        local bib_path = vim.fn.expand("~/Dropbox/DSU/bibliography.bib")
 
         require("telescope._extensions.bibtex").setup({
             depth = 1,
@@ -15,6 +15,10 @@ return {
             citation_max_auth = 2,
             context = true,
             context_fallback = true,
+            preview = {
+                check_mime_type = false,
+            },
+            formatter = "plain",
         })
 
         -- Register the keymap with which-key
@@ -23,7 +27,9 @@ return {
             { "<leader>fc", desc = "Find Citations" },
         })
 
-        vim.keymap.set("n", "<leader>fc", ":Telescope bibtex<CR>",
+        vim.keymap.set("n", "<leader>fc", 
+            --":Telescope bibtex<CR>",
+            "<cmd>Telescope bibtex previewer=false<CR>",
             { desc = "Find Citations" })
     end,
 }
